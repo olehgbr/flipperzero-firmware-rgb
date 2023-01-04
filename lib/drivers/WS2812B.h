@@ -31,6 +31,13 @@ typedef struct {
     bool settings_is_loaded;
 } RGBBacklightSettings;
 
+typedef struct {
+    char* name;
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+} WS2812B_Color;
+
 #define LED_PIN &gpio_ext_pa7
 #define WS2812B_LEDS 3
 
