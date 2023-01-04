@@ -27,7 +27,6 @@
 typedef struct {
     uint8_t version;
     uint8_t display_color_index;
-    float display_brightness;
     bool settings_is_loaded;
 } RGBBacklightSettings;
 
@@ -47,7 +46,6 @@ void rgb_backlight_update(uint8_t backlight);
 
 void rgb_backlight_set_color(uint8_t color_index);
 void rgb_backlight_set_color(uint8_t color_index);
-void rgb_backlight_set_brightness(float brightness);
 
 RGBBacklightSettings* rgb_backlight_get_settings(void);
 uint8_t rgb_backlight_get_color_count(void);

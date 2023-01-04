@@ -74,7 +74,6 @@ const bool vibro_value[VIBRO_COUNT] = {false, true};
 static void backlight_changed(VariableItem* item) {
     NotificationAppSettings* app = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
-    rgb_backlight_set_brightness(app->notification->settings.display_brightness);
     variable_item_set_current_value_text(item, backlight_text[index]);
     app->notification->settings.display_brightness = backlight_value[index];
     furi_delay_ms(1);
