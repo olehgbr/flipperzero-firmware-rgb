@@ -26,7 +26,7 @@
 #include <input/input.h>
 
 #define TAG "RGB Backlight"
-#define RGB_BACKLIGHT_SETTINGS_VERSION 4
+#define RGB_BACKLIGHT_SETTINGS_VERSION 5
 #define RGB_BACKLIGHT_SETTINGS_FILE_NAME ".rgb_backlight.settings"
 #define RGB_BACKLIGHT_SETTINGS_PATH EXT_PATH(RGB_BACKLIGHT_SETTINGS_FILE_NAME)
 
@@ -34,7 +34,6 @@ static uint8_t WS2812B_ledbuffer[WS2812B_LEDS][3];
 
 static RGBBacklightSettings rgb_settings = {
     .version = RGB_BACKLIGHT_SETTINGS_VERSION,
-    .display_brightness = 1.0f,
     .display_color_index = 0,
     .settings_is_loaded = false};
 
@@ -187,9 +186,6 @@ RGBBacklightSettings* rgb_backlight_get_settings(void) {
 
 void rgb_backlight_set_color(uint8_t color_index) {
     rgb_settings.display_color_index = color_index;
-}
-void rgb_backlight_set_brightness(float brightness) {
-    rgb_settings.display_brightness = brightness;
 }
 
 void rgb_backlight_update(uint8_t backlight) {
