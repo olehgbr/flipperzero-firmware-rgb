@@ -26,7 +26,7 @@
 #include <input/input.h>
 
 #define TAG "RGB Backlight"
-#define RGB_BACKLIGHT_SETTINGS_VERSION 3
+#define RGB_BACKLIGHT_SETTINGS_VERSION 4
 #define RGB_BACKLIGHT_SETTINGS_FILE_NAME ".rgb_backlight.settings"
 #define RGB_BACKLIGHT_SETTINGS_PATH EXT_PATH(RGB_BACKLIGHT_SETTINGS_FILE_NAME)
 
@@ -38,32 +38,22 @@ static RGBBacklightSettings rgb_settings = {
     .display_color_index = 0,
     .settings_is_loaded = false};
 
-#define COLOR_COUNT (sizeof(color_value) / sizeof(uint32_t))
-const char* color_text[] = {
-    "Orange",
-    "Yellow",
-    "Lime",
-    "Olive",
-    "Green",
-    "Teal",
-    "Blue",
-    "Aqua",
-    "Fuchsia",
-    "Red",
-    "White"};
-const uint32_t color_value[] = {
-    //R G B
-    0xFF4500, //Orange
-    0xFFFF00, //Yellow
-    0x00FF00, //Lime
-    0x808000, //Olive
-    0x008000, //Green
-    0x008080, //Teal
-    0x0000FF, //Blue
-    0x00FFFF, //Aqua
-    0xFF00FF, //Fuchsia
-    0xFF0000, //Red
-    0xFFFFE0, //White
+#define COLOR_COUNT (sizeof(colors) / sizeof(WS2812B_Color))
+
+const WS2812B_Color colors[] = {
+    {"Orange", 255, 79, 0},
+    {"Yellow", 255, 170, 0},
+    {"Spring", 167, 255, 0},
+    {"Lime", 0, 255, 0},
+    {"Aqua", 0, 255, 127},
+    {"Cyan", 0, 210, 210},
+    {"Azure", 0, 127, 255},
+    {"Blue", 0, 0, 255},
+    {"Purple", 127, 0, 255},
+    {"Magenta", 210, 0, 210},
+    {"Pink", 255, 0, 127},
+    {"Red", 255, 0, 0},
+    {"White", 140, 140, 140},
 };
 
 void WS2812B_send(void) {
@@ -108,7 +98,7 @@ uint8_t rgb_backlight_get_color_count(void) {
 }
 
 const char* rgb_backlight_get_color_text(uint8_t index) {
-    return color_text[index];
+    return colors[index].name;
 }
 
 static void rgb_backlight_load_settings(void) {
@@ -145,9 +135,7 @@ static void rgb_backlight_load_settings(void) {
                 settings.version,
                 RGB_BACKLIGHT_SETTINGS_VERSION);
         } else {
-            furi_kernel_lock();
             memcpy(&rgb_settings, &settings, settings_size);
-            furi_kernel_unlock();
         }
     } else {
         FURI_LOG_E(TAG, "load failed, %s", storage_file_get_error_desc(file));
@@ -166,9 +154,7 @@ void rgb_backlight_save_settings(void) {
 
     FURI_LOG_I(TAG, "saving settings to \"%s\"", RGB_BACKLIGHT_SETTINGS_PATH);
 
-    furi_kernel_lock();
     memcpy(&settings, &rgb_settings, settings_size);
-    furi_kernel_unlock();
 
     bool fs_result =
         storage_file_open(file, RGB_BACKLIGHT_SETTINGS_PATH, FSAM_WRITE, FSOM_CREATE_ALWAYS);
@@ -213,14 +199,13 @@ void rgb_backlight_update(uint8_t backlight) {
     for(uint8_t i = 0; i < WS2812B_LEDS; i++) {
         //Green
         WS2812B_ledbuffer[i][0] =
-            ((color_value[rgb_settings.display_color_index] & 0x00FF00) >> 8) *
-            (backlight / 255.0f);
+            colors[rgb_settings.display_color_index].green * (backlight / 255.0f);
         //Red
         WS2812B_ledbuffer[i][1] =
-            (color_value[rgb_settings.display_color_index] >> 16) * (backlight / 255.0f);
+            colors[rgb_settings.display_color_index].red * (backlight / 255.0f);
         //Blue
         WS2812B_ledbuffer[i][2] =
-            (color_value[rgb_settings.display_color_index] & 0xFF) * (backlight / 255.0f);
+            colors[rgb_settings.display_color_index].blue * (backlight / 255.0f);
     }
 
     WS2812B_send();
