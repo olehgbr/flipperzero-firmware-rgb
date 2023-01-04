@@ -129,7 +129,6 @@ static void color_changed(VariableItem* item) {
 
 static uint32_t notification_app_settings_exit(void* context) {
     UNUSED(context);
-    rgb_backlight_save_settings();
     return VIEW_NONE;
 }
 
@@ -146,17 +145,17 @@ static NotificationAppSettings* alloc_settings() {
     uint8_t value_index;
 
     item = variable_item_list_add(
-        app->variable_item_list, "LCD Backlight", BACKLIGHT_COUNT, backlight_changed, app);
-    value_index = value_index_float(
-        app->notification->settings.display_brightness, backlight_value, BACKLIGHT_COUNT);
-    variable_item_set_current_value_index(item, value_index);
-    variable_item_set_current_value_text(item, backlight_text[value_index]);
-
-    item = variable_item_list_add(
         app->variable_item_list, "LCD Color", rgb_backlight_get_color_count(), color_changed, app);
     value_index = rgb_backlight_get_settings()->display_color_index;
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, rgb_backlight_get_color_text(value_index));
+
+    item = variable_item_list_add(
+        app->variable_item_list, "LCD Brightness", BACKLIGHT_COUNT, backlight_changed, app);
+    value_index = value_index_float(
+        app->notification->settings.display_brightness, backlight_value, BACKLIGHT_COUNT);
+    variable_item_set_current_value_index(item, value_index);
+    variable_item_set_current_value_text(item, backlight_text[value_index]);
 
     item = variable_item_list_add(
         app->variable_item_list, "Backlight Time", DELAY_COUNT, screen_changed, app);

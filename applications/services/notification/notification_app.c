@@ -6,6 +6,7 @@
 #include "notification.h"
 #include "notification_messages.h"
 #include "notification_app.h"
+#include <lib/drivers/WS2812B.h>
 
 #define TAG "NotificationSrv"
 
@@ -555,6 +556,7 @@ int32_t notification_srv(void* p) {
             break;
         case SaveSettingsMessage:
             notification_save_settings(app);
+            rgb_backlight_save_settings();
             break;
         }
 
