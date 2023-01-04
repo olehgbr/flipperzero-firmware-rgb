@@ -55,7 +55,13 @@ const WS2812B_Color colors[] = {
     {"White", 140, 140, 140},
 };
 
+static void _port_init(void) {
+    furi_hal_gpio_write(LED_PIN, true);
+    furi_hal_gpio_init(LED_PIN, GpioModeOutputPushPull, GpioPullNo, GpioSpeedVeryHigh);
+}
+
 void WS2812B_send(void) {
+    _port_init();
     furi_kernel_lock();
     /* Последовательная отправка цветов светодиодов */
     for(uint8_t lednumber = 0; lednumber < WS2812B_LEDS; lednumber++) {
@@ -88,10 +94,6 @@ void WS2812B_send(void) {
     furi_kernel_unlock();
     //Необходимая задержка - признак окончания передачи
     furi_delay_us(100);
-}
-
-static void _port_init(void) {
-    furi_hal_gpio_init(LED_PIN, GpioModeOutputPushPull, GpioPullNo, GpioSpeedVeryHigh);
 }
 
 uint8_t rgb_backlight_get_color_count(void) {
