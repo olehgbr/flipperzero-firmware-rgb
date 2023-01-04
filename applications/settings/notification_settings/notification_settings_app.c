@@ -70,7 +70,6 @@ static void backlight_changed(VariableItem* item) {
     uint8_t index = variable_item_get_current_value_index(item);
     variable_item_set_current_value_text(item, backlight_text[index]);
     app->notification->settings.display_brightness = backlight_value[index];
-    furi_delay_ms(1);
     notification_message(app->notification, &sequence_display_backlight_on);
 }
 
@@ -124,7 +123,6 @@ static void color_changed(VariableItem* item) {
     NotificationAppSettings* app = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
     rgb_backlight_set_color(index);
-    furi_delay_ms(1);
     variable_item_set_current_value_text(item, rgb_backlight_get_color_text(index));
     notification_message(app->notification, &sequence_display_backlight_on);
 }

@@ -86,6 +86,8 @@ void WS2812B_send(void) {
         }
     }
     furi_kernel_unlock();
+    //Необходимая задержка - признак окончания передачи
+    furi_delay_us(100);
 }
 
 static void _port_init(void) {
