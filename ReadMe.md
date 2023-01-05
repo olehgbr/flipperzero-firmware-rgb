@@ -6,6 +6,9 @@ This is the original stable auto-updated fork of the official Flipper Zero firmw
 # How to made it?
 [Evgeny](https://t.me/hitriy) wrote a tutorial on modifying Flipper. You can see [here](https://telegra.ph/Flipper-Zero-RGB-backlight-guide-12-26)  
 
+# Demo
+https://user-images.githubusercontent.com/10090793/210387463-217b0d0b-3cac-44e4-a297-2119652cdea5.mp4
+
 # Download
 You can download the firmware [here](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG?path=%2Fofw)
 - Latest dev: [download](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG/download?path=%2Fofw&files=flipper-z-f7-update-dev-latest.tgz)
