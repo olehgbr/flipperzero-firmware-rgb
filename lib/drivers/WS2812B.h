@@ -19,10 +19,7 @@
 #ifndef WS2812B_H_
 #define WS2812B_H_
 
-#include "furi.h"
-#include <stdint.h>
-#include <stdbool.h>
-#include <input/input.h>
+#include <furi.h>
 
 typedef struct {
     uint8_t version;
@@ -37,18 +34,45 @@ typedef struct {
     uint8_t blue;
 } WS2812B_Color;
 
-#define LED_PIN &gpio_ext_pa7
-#define WS2812B_LEDS 3
+/**
+ * @brief Получить текущие настройки RGB-подсветки 
+ * 
+ * @return Указатель на структуру настроек
+ */
+RGBBacklightSettings* rgb_backlight_get_settings(void);
 
+/**
+ * @brief Сохранить текущие настройки RGB-подсветки 
+ */
 void rgb_backlight_save_settings(void);
 
-void rgb_backlight_update(uint8_t backlight);
+/**
+ * @brief Применить текущие настройки RGB-подсветки
+ * 
+ * @param brightness Яркость свечения (0-255)
+ */
+void rgb_backlight_update(uint8_t brightness);
 
-void rgb_backlight_set_color(uint8_t color_index);
+/**
+ * @brief Установить цвет RGB-подсветки
+ * 
+ * @param color_index Индекс цвета (0 - rgb_backlight_get_color_count())
+ */
 void rgb_backlight_set_color(uint8_t color_index);
 
-RGBBacklightSettings* rgb_backlight_get_settings(void);
+/**
+ * @brief Получить количество доступных цветов
+ * 
+ * @return Число доступных вариантов цвета
+ */
 uint8_t rgb_backlight_get_color_count(void);
+
+/**
+ * @brief Получить текстовое название цвета
+ * 
+ * @param index Индекс из доступных вариантов цвета
+ * @return Указатель на строку с названием цвета
+ */
 const char* rgb_backlight_get_color_text(uint8_t index);
 
 #endif /* WS2812B_H_ */
