@@ -29,6 +29,17 @@
 
 #define TAG "RGB Backlight"
 
+#ifdef FURI_DEBUG
+#define DEBUG_PIN &gpio_ext_pa7
+#define DEBUG_INIT() \
+    furi_hal_gpio_init(DEBUG_PIN, GpioModeOutputPushPull, GpioPullNo, GpioSpeedVeryHigh)
+#define DEBUG_SET_HIGH() furi_hal_gpio_write(DEBUG_PIN, true)
+#define DEBUG_SET_LOW() furi_hal_gpio_write(DEBUG_PIN, false)
+#else
+#define DEBUG_INIT()
+#define DEBUG_SET_HIGH()
+#define DEBUG_SET_LOW()
+#endif
 static uint8_t RGB_BACKLIGHT_ledbuffer[RGB_BACKLIGHT_LEDS][3];
 static const GpioPin led_pin = {.port = GPIOA, .pin = LL_GPIO_PIN_8};
 
@@ -56,12 +67,13 @@ const WS2812B_Color colors[] = {
 };
 
 static void _port_init(void) {
+    DEBUG_INIT();
     furi_hal_gpio_write(RGB_BACKLIGHT_LED_PIN, false);
     furi_hal_gpio_init(
         RGB_BACKLIGHT_LED_PIN, GpioModeOutputPushPull, GpioPullNo, GpioSpeedVeryHigh);
 }
 
-void RGB_BACKLIGHT_send(void) {
+void WS2812B_send(void) {
     _port_init();
     furi_kernel_lock();
     uint32_t end;
@@ -74,26 +86,26 @@ void RGB_BACKLIGHT_send(void) {
             while(i != 0) {
                 if(RGB_BACKLIGHT_ledbuffer[lednumber][color] & (i)) {
                     furi_hal_gpio_write(RGB_BACKLIGHT_LED_PIN, true);
-                    //furi_hal_gpio_write(DEBUG_PIN, true);
+                    DEBUG_SET_HIGH();
                     end = DWT->CYCCNT + 30;
                     //T1H 600 us (615 us)
                     while(DWT->CYCCNT < end) {
                     }
                     furi_hal_gpio_write(RGB_BACKLIGHT_LED_PIN, false);
-                    //furi_hal_gpio_write(DEBUG_PIN, false);
+                    DEBUG_SET_LOW();
                     end = DWT->CYCCNT + 26;
                     //T1L  600 us (587 us)
                     while(DWT->CYCCNT < end) {
                     }
                 } else {
                     furi_hal_gpio_write(RGB_BACKLIGHT_LED_PIN, true);
-                    //furi_hal_gpio_write(DEBUG_PIN, true);
+                    DEBUG_SET_HIGH();
                     end = DWT->CYCCNT + 11;
                     //T0H 300 ns (312 ns)
                     while(DWT->CYCCNT < end) {
                     }
                     furi_hal_gpio_write(RGB_BACKLIGHT_LED_PIN, false);
-                    //furi_hal_gpio_write(DEBUG_PIN, false);
+                    DEBUG_SET_LOW();
                     end = DWT->CYCCNT + 43;
                     //T0L 900 ns (890 ns)
                     while(DWT->CYCCNT < end) {
@@ -103,8 +115,6 @@ void RGB_BACKLIGHT_send(void) {
             }
         }
     }
-    //Trst - признак окончания передачи
-    furi_delay_us(100);
     furi_kernel_unlock();
 }
 
@@ -207,6 +217,16 @@ void rgb_backlight_update(uint8_t brightness) {
     if(!rgb_settings.settings_is_loaded) {
         rgb_backlight_load_settings();
     }
+
+    static uint8_t last_color_index = 255;
+    static uint8_t last_brightness = 123;
+
+    if(last_brightness == brightness && last_color_index == rgb_settings.display_color_index)
+        return;
+
+    last_brightness = brightness;
+    last_color_index = rgb_settings.display_color_index;
+
     for(uint8_t i = 0; i < RGB_BACKLIGHT_LEDS; i++) {
         RGB_BACKLIGHT_ledbuffer[i][0] =
             colors[rgb_settings.display_color_index].green * (brightness / 255.0f);
@@ -216,5 +236,5 @@ void rgb_backlight_update(uint8_t brightness) {
             colors[rgb_settings.display_color_index].blue * (brightness / 255.0f);
     }
 
-    RGB_BACKLIGHT_send();
+    WS2812B_send();
 }
