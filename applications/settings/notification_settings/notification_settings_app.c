@@ -74,7 +74,6 @@ const bool vibro_value[VIBRO_COUNT] = {false, true};
 static void backlight_changed(VariableItem* item) {
     NotificationAppSettings* app = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
-    rgb_backlight_set_brightness(app->notification->settings.display_brightness);
     variable_item_set_current_value_text(item, backlight_text[index]);
     app->notification->settings.display_brightness = backlight_value[index];
     furi_delay_ms(1);
@@ -131,7 +130,10 @@ static void color_changed(VariableItem* item) {
     NotificationAppSettings* app = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
     rgb_backlight_set_color(index);
+<<<<<<< HEAD
     furi_delay_ms(1);
+=======
+>>>>>>> 5ffb8354a061f702ca96a3347a15bdd13f592417
     variable_item_set_current_value_text(item, rgb_backlight_get_color_text(index));
     notification_message(app->notification, &sequence_display_backlight_on);
 }
@@ -155,7 +157,13 @@ static NotificationAppSettings* alloc_settings() {
     uint8_t value_index;
 
     item = variable_item_list_add(
-        app->variable_item_list, "LCD Backlight", BACKLIGHT_COUNT, backlight_changed, app);
+        app->variable_item_list, "LCD Color", rgb_backlight_get_color_count(), color_changed, app);
+    value_index = rgb_backlight_get_settings()->display_color_index;
+    variable_item_set_current_value_index(item, value_index);
+    variable_item_set_current_value_text(item, rgb_backlight_get_color_text(value_index));
+
+    item = variable_item_list_add(
+        app->variable_item_list, "LCD Brightness", BACKLIGHT_COUNT, backlight_changed, app);
     value_index = value_index_float(
         app->notification->settings.display_brightness, backlight_value, BACKLIGHT_COUNT);
     variable_item_set_current_value_index(item, value_index);
