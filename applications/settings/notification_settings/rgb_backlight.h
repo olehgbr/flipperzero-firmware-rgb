@@ -1,6 +1,6 @@
 /*
-    WS2812B FlipperZero driver
-    Copyright (C) 2022  Victor Nikitchuk (https://github.com/quen0n)
+    RGB backlight FlipperZero driver
+    Copyright (C) 2022-2023 Victor Nikitchuk (https://github.com/quen0n)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -11,15 +11,20 @@
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef WS2812B_H_
-#define WS2812B_H_
-
 #include <furi.h>
+#include "SK6805.h"
+
+typedef struct {
+    char* name;
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+} RGBBacklightColor;
 
 typedef struct {
     uint8_t version;
@@ -27,19 +32,17 @@ typedef struct {
     bool settings_is_loaded;
 } RGBBacklightSettings;
 
-typedef struct {
-    char* name;
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
-} WS2812B_Color;
-
 /**
  * @brief Получить текущие настройки RGB-подсветки 
  * 
  * @return Указатель на структуру настроек
  */
 RGBBacklightSettings* rgb_backlight_get_settings(void);
+
+/**
+ * @brief Загрузить настройки подсветки с SD-карты
+ */
+void rgb_backlight_load_settings(void);
 
 /**
  * @brief Сохранить текущие настройки RGB-подсветки 
@@ -74,5 +77,3 @@ uint8_t rgb_backlight_get_color_count(void);
  * @return Указатель на строку с названием цвета
  */
 const char* rgb_backlight_get_color_text(uint8_t index);
-
-#endif /* WS2812B_H_ */
