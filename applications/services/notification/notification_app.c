@@ -6,7 +6,7 @@
 #include "notification.h"
 #include "notification_messages.h"
 #include "notification_app.h"
-#include <lib/drivers/WS2812B.h>
+#include "applications/settings/notification_settings/rgb_backlight.h"
 
 #define TAG "NotificationSrv"
 

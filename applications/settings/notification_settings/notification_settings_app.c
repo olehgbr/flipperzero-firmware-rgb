@@ -3,7 +3,7 @@
 #include <gui/modules/variable_item_list.h>
 #include <gui/view_dispatcher.h>
 #include <lib/toolbox/value_index.h>
-#include <lib/drivers/WS2812B.h>
+#include <applications/settings/notification_settings/rgb_backlight.h>
 
 #define MAX_NOTIFICATION_SETTINGS 4
 
@@ -76,7 +76,6 @@ static void backlight_changed(VariableItem* item) {
     uint8_t index = variable_item_get_current_value_index(item);
     variable_item_set_current_value_text(item, backlight_text[index]);
     app->notification->settings.display_brightness = backlight_value[index];
-    furi_delay_ms(1);
     notification_message(app->notification, &sequence_display_backlight_on);
 }
 
@@ -130,17 +129,12 @@ static void color_changed(VariableItem* item) {
     NotificationAppSettings* app = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
     rgb_backlight_set_color(index);
-<<<<<<< HEAD
-    furi_delay_ms(1);
-=======
->>>>>>> 5ffb8354a061f702ca96a3347a15bdd13f592417
     variable_item_set_current_value_text(item, rgb_backlight_get_color_text(index));
     notification_message(app->notification, &sequence_display_backlight_on);
 }
 
 static uint32_t notification_app_settings_exit(void* context) {
     UNUSED(context);
-    rgb_backlight_save_settings();
     return VIEW_NONE;
 }
 
@@ -168,12 +162,6 @@ static NotificationAppSettings* alloc_settings() {
         app->notification->settings.display_brightness, backlight_value, BACKLIGHT_COUNT);
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, backlight_text[value_index]);
-
-    item = variable_item_list_add(
-        app->variable_item_list, "LCD Color", rgb_backlight_get_color_count(), color_changed, app);
-    value_index = rgb_backlight_get_settings()->display_color_index;
-    variable_item_set_current_value_index(item, value_index);
-    variable_item_set_current_value_text(item, rgb_backlight_get_color_text(value_index));
 
     item = variable_item_list_add(
         app->variable_item_list, "Backlight Time", DELAY_COUNT, screen_changed, app);

@@ -1,10 +1,10 @@
 ![image](https://user-images.githubusercontent.com/10090793/210385472-a2f912d3-3977-4220-9ee2-85f952b01a90.png)
 
 # Flipper Zero RGB Firmware
-This is the original stable auto-updated fork of the official Flipper Zero firmware with RGB lighting support. You don't need to patch the firmware yourself - you can just download it.
+This is the original stable auto-updated fork of the official Flipper Zero firmware with RGB lighting support. You don't need to patch the firmware yourself - you can just download it. Made for [this hardware](https://github.com/hitriy/fliipper-rgb-hardware)
 
 # How to made it?
-[Evgeny](https://t.me/hitriy) wrote a tutorial on modifying Flipper. You can see [here](https://telegra.ph/Flipper-Zero-RGB-backlight-guide-12-26)  
+[Evgeny](https://github.com/hitriy) wrote a tutorial on modifying Flipper. You can see [here](https://telegra.ph/Flipper-Zero-RGB-backlight-guide-12-26)
 
 # Demo
 https://user-images.githubusercontent.com/10090793/210387463-217b0d0b-3cac-44e4-a297-2119652cdea5.mp4
@@ -28,5 +28,7 @@ You can download the firmware [here](https://cloud.quenon.ru/index.php/s/cThZsaS
 4) Click "Choose file" and select the downloaded firmware file.
 5) Click "Install" and wait for the installation to complete.
 
+# Questions and Discussions
+Ask questions or send your beautiful Flippers to the [Discord discussion](https://discord.com/channels/740930220399525928/1057130674500419624)
 # Do not use official firmware?
 You can use [Unleashed Firmware RGB](https://github.com/quen0n/unleashed-firmware-rgb)
