@@ -11,18 +11,18 @@ https://user-images.githubusercontent.com/10090793/210387463-217b0d0b-3cac-44e4-
 
 # Download
 You can download the firmware [here](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG?path=%2Fofw)
-- Latest dev: [download](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG/download?path=%2Fofw&files=flipper-z-f7-update-dev-latest.tgz)
-- Latest release: [download](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG/download?path=%2Fofw&files=flipper-z-f7-update-release-latest.tgz)
+- Latest dev: [download](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG/download?path=%2Fofw&files=flipper-z-f7-update-RGB-release-latest.tgz)
+- Latest release: [download](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG/download?path=%2Fofw&files=flipper-z-f7-update-RGB-release-latest.tgz)
 
 # How to install
 ### From computer
 1) Connect Flipper to your computer via USB. Unlock Flipper if pin code is set.
-2) Go to [web installer](https://lab.flipper.net/?url=https://cloud.quenon.ru/RGB-FW/ofw/flipper-z-f7-update-release-latest.tgz&channel=RGB&version=OWF-RGB-latest).
+2) Go to [web installer](https://lab.flipper.net/?url=https://cloud.quenon.ru/RGB-FW/ofw/flipper-z-f7-update-RGB-release-latest.tgz&channel=RGB&version=OWF-RGB-latest).
 3) If the flipper does not automatically connect, click "Connect".
 4) Click "Install" and wait for the installation to complete.
 
 ### From your phone
-1) Download latest [firmware release](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG/download?path=%2Fofw&files=flipper-z-f7-update-release-latest.tgz).
+1) Download latest [firmware release](https://cloud.quenon.ru/index.php/s/cThZsaSw7llCYrG/download?path=%2Fofw&files=flipper-z-f7-update-RGB-release-latest.tgz).
 2) Open the Flipper app and connect to the device.
 3) In Update Channel, select Custom.
 4) Click "Choose file" and select the downloaded firmware file.
